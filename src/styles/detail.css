@@ -1,0 +1,73 @@
+/* #cart-icon {
+    position: relative;
+    display: inline-block;
+    margin-right: 10px;
+    margin-top: 5px;
+    cursor: pointer;
+  }
+  
+  #cart-icon i {
+    font-size: 24px;
+    color: #333;
+  }
+  
+  #cart-count {
+    position: absolute;
+    top: -10px; 
+    right: -10px; 
+    background-color: #ff5733; 
+    color: #fff; 
+    border-radius: 50%; 
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+
+  #cart-icon:hover #cart-count {
+    background-color: #333; 
+    transform: scale(1.2); 
+  } */
+
+  
+/* CSS cho footer */
+/* 
+.nav-link:hover {
+  background-color: rgb(209, 209, 209);
+}
+@media only screen and (max-width: 768px) {
+  .sell{
+      display: none;
+  }
+
+}
+ul li a{
+
+  text-decoration: none;
+color: aliceblue;
+
+}
+ul li{
+  margin-top: 12px;
+  list-style: none;
+}
+.icon_footer a{
+  color: aliceblue;
+}
+@media screen and (min-width:989px){
+ .navbar-nav{
+  margin-right: 30px;
+ }
+}
+.nav-link:focus, .nav-link:hover {
+  background-color: rgb(209, 209, 209);
+  color: aliceblue;
+} */
+
+/* .iconGioHang{
+  margin-top: 15px;
+} */
