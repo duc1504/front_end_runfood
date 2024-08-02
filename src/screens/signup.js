@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import logo from '../assets/images/logo.png';
-import signupImage from '../assets/images/team-2.jpg'; 
+import signupImage from '../assets/images/team.png'; 
 import Header from '../components/header';
 import Footer from '../components/footer';
 import Swal from 'sweetalert2'

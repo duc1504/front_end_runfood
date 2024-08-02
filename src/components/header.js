@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import logo from "../assets/images/logo.png";
+import logo from "../assets/images/logo1.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faShoppingCart,
@@ -44,7 +44,9 @@ const Header = ({ cartCount }) => {
     <nav className="navbar navbar-expand-lg bg-white sticky-top navbar-light p-3 shadow-sm">
       <div className="container">
         <a className="navbar-brand" href="/">
-          <img src={logo} alt="Logo" />
+          <img src={logo} alt="Logo"
+          style={{  height: "50px",width: "196px", objectFit: "contain" }}
+          />
         </a>
         <button
           className="navbar-toggler"

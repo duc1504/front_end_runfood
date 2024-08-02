@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import logo from '../assets/images/logo.png';
-import loginImage from '../assets/images/team-2.jpg';
+import loginImage from '../assets/images/team.png';
 import Header from '../components/header';
 import Footer from '../components/footer';
 
@@ -47,7 +47,8 @@ const Login = () => {
                         <div className="card">
                             <div className="row">
                                 <div className="col-md-6 col-lg-5 d-none d-md-block">
-                                    <img src={loginImage} alt="login form" className="w-100 h-100" />
+                                    <img src={loginImage} alt="login form" className="w-100 h-100"
+                                     />
                                 </div>
                                 <div className="col-md-6 col-lg-7 d-flex align-items-center">
                                     <div className="card-body p-4 p-lg-5 text-black">

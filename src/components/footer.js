@@ -1,5 +1,5 @@
 import React from 'react';
-import footerLogo from '../assets/images/logo.png';
+import footerLogo from '../assets/images/logo1.png';
 // import paymentImg from '../assets/images/logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faTwitter, faGooglePlus, faPinterest, faYoutube } from '@fortawesome/free-brands-svg-icons';
@@ -10,15 +10,16 @@ const Footer = () => {
             <div className="container text-center text-md-start mt-5 text-white">
                 <div className="row mt-3">
                     <div className="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4 text-white">
-                        <img src={footerLogo} alt="Footer Logo" />
-                        <p className="mt-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur quod,</p>
+                        <img src={footerLogo} alt="Footer Logo"
+                            style={{ width: '190px', height: '60px' }} />
+                        <p className="mt-5">Gather 'Round the Good Stuff” and “Makin' it great again and again,</p>
                         {/* <img className="mt-3" src={paymentImg} alt="Payment Methods" /> */}
                     </div>
                     <div className="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-                        <h6 className="mb-3">SHOPPING<hr /></h6>
+                        <h6 className="mb-3">FOOD<hr /></h6>
                         <ul>
-                            <li><a href="#!">Clothing Store</a></li>
-                            <li><a href="#!">Trending Shoes</a></li>
+                            <li><a href="#!">Food Store</a></li>
+                            <li><a href="#!">Trending Food</a></li>
                             <li><a href="#!">Accessories</a></li>
                             <li><a href="#!">Sale</a></li>
                         </ul>

@@ -16,11 +16,11 @@ const Home = () => {
   const navigate = useNavigate();
 
   const slideImages = [
-    require("../assets/images/hero-1.jpg"),
-    require("../assets/images/hero-2.jpg"),
-    require("../assets/images/hero-3.jpg"),
-    require("../assets/images/hero-4.jpg"),
-    require("../assets/images/hero-5.jpg"),
+    require("../assets/images/banner01.png"),
+    require("../assets/images/banner02.png"),
+    require("../assets/images/banner03.png"),
+    require("../assets/images/banner04.png"),
+   
   ];
 
   useEffect(() => {
@@ -169,7 +169,8 @@ const Home = () => {
           src={slideImages[currentSlide]}
           id="image"
           alt="Slide"
-          style={{ objectFit: "cover" }}
+          
+          style={{ objectFit: "contain", width: "100%"}}
         />
         <i className="fa fa-chevron-circle-left" onClick={prevSlide}></i>
         <i className="fa fa-chevron-circle-right" onClick={nextSlide}></i>
