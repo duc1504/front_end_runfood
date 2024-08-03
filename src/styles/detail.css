@@ -1,3 +1,72 @@
+
+.review {
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.review strong {
+  font-size: 1.1rem;
+}
+
+.review .fa-star {
+  font-size: 1rem;
+}
+
+.comment-area {
+  margin-top: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+}
+
+.rating-container {
+  display: flex;
+  align-items: center; 
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.rating-title {
+  margin-right: 20px; 
+  font-size: 1.5rem; 
+  text-align: left;
+  flex-shrink: 0; 
+}
+
+.rating-stars {
+  display: flex;
+  align-items: center; 
+}
+
+.rating-stars .fa-star {
+  font-size: 2rem; /* Kích thước sao lớn hơn */
+  cursor: pointer;
+  color: #f39c12; /* Màu sao */
+  transition: color 0.2s; /* Hiệu ứng chuyển màu khi hover */
+}
+
+.rating-stars .fa-star:hover {
+  color: #e67e22; /* Màu khi hover vào sao */
+}
+
+@media only screen and (max-width: 768px) {
+  .rating-container {
+    display: flex;
+    align-items: center; 
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 15px;
+  }
+  .rating-title{
+    display: none;
+  }
+
+}
+
+
 /* #cart-icon {
     position: relative;
     display: inline-block;

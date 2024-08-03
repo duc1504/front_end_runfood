@@ -29,8 +29,9 @@ const Cart = () => {
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
   const [error, setError] = useState("");
-  const [note, setNote] = useState(""); // State mới để quản lý ghi chú
-  const [removeitemramdom, setRemoveitemramdom] = useState(0);
+  const [note, setNote] = useState("");
+  const [loading, setLoading] = useState(true);
+
   const navigate = useNavigate();
   const [addressDetail, setAddressDetail] = useState("");
 
@@ -38,12 +39,14 @@ const Cart = () => {
     const fetchCartItems = async () => {
       try {
         const user = JSON.parse(localStorage.getItem("user"));
+
         if (!user) {
           // Redirect to login if no user
           navigate("/login");
           return;
         }
-
+        setName(user.name);
+        setPhone(user.phone);
         const response = await axios.get(
           `https://backend-runfood.vercel.app/cart/${user._id}`
         );
@@ -51,7 +54,7 @@ const Cart = () => {
         if (data.status) {
           setCartItems(data.data.items);
           setTotalPrice(parseFloat(data.data.totalPrice) || 0);
-          setName(user.name);
+          setLoading(false);
         }
       } catch (err) {
         console.error("Error fetching cart items:", err);
@@ -128,19 +131,30 @@ const Cart = () => {
 
   const removeCartItem = async (productId) => {
     const user = JSON.parse(localStorage.getItem("user"));
-    var ramdomremove = Math.floor(Math.random() * 1000);
-    setRemoveitemramdom(ramdomremove);
-    console.log(ramdomremove);
     const userId = user?._id;
+
     if (!userId) {
-      console.error("User ID không được tìm thấy. Vui bạn đăng nhập.");
+      console.error("User ID không được tìm thấy. Vui lòng đăng nhập.");
       return;
     }
+
     try {
       await axios.delete("https://backend-runfood.vercel.app/cart/remove", {
         data: { userId: userId, productId: productId },
       });
-      setCartItems(cartItems.filter((item) => item.product._id !== productId));
+
+      // Cập nhật giỏ hàng sau khi xóa item
+      const updatedCartItems = cartItems.filter(
+        (item) => item.product._id !== productId
+      );
+      setCartItems(updatedCartItems);
+
+      // Cập nhật tổng giá tiền
+      const newTotalPrice = updatedCartItems.reduce(
+        (acc, item) => acc + parseFloat(item.subtotal),
+        0
+      );
+      setTotalPrice(newTotalPrice.toFixed(2));
     } catch (err) {
       console.error("Error removing cart item:", err);
       setError("Đã xảy ra lỗi khi xóa sản phẩm khỏi giỏ hàng.");
@@ -149,21 +163,23 @@ const Cart = () => {
 
   const handleQuantityChange = async (index, event) => {
     const newQuantity = parseInt(event.target.value, 10);
-    
+
     // Kiểm tra giá trị nhập vào
     console.log("New Quantity:", newQuantity);
     if (isNaN(newQuantity) || newQuantity < 0) {
       return; // Không cho phép số lượng không hợp lệ hoặc âm
     }
-  
+
     try {
       const productId = cartItems[index].product._id;
-  
+
       // Lấy thông tin sản phẩm để kiểm tra số lượng tồn kho
-      const productResponse = await axios.get(`https://backend-runfood.vercel.app/product/detail/${productId}`);
+      const productResponse = await axios.get(
+        `https://backend-runfood.vercel.app/product/detail/${productId}`
+      );
       const productData = productResponse.data;
       const stock = productData.data.stock;
-  
+
       // Tính tổng số lượng sản phẩm hiện tại trong giỏ hàng
       const currentQuantity = cartItems.reduce((acc, item) => {
         if (item.product._id === productId) {
@@ -171,7 +187,7 @@ const Cart = () => {
         }
         return acc;
       }, 0);
-  
+
       // Kiểm tra tổng số lượng sau khi thay đổi
       if (newQuantity + (currentQuantity - cartItems[index].quantity) > stock) {
         Swal.fire({
@@ -181,7 +197,7 @@ const Cart = () => {
         });
         return;
       }
-  
+
       // Cập nhật số lượng sản phẩm trong giỏ hàng
       const updatedCartItems = [...cartItems];
       updatedCartItems[index].quantity = newQuantity;
@@ -189,14 +205,14 @@ const Cart = () => {
         newQuantity * updatedCartItems[index].product.price
       ).toFixed(2);
       setCartItems(updatedCartItems);
-  
+
       // Cập nhật tổng giá tiền
       const newTotalPrice = updatedCartItems.reduce(
         (acc, item) => acc + parseFloat(item.subtotal),
         0
       );
       setTotalPrice(newTotalPrice.toFixed(2));
-  
+
       // Cập nhật số lượng sản phẩm trong giỏ hàng trên server
       await updateCartItemQuantity(
         updatedCartItems[index].product._id,
@@ -207,7 +223,6 @@ const Cart = () => {
       setError("Đã xảy ra lỗi khi thay đổi số lượng sản phẩm.");
     }
   };
-  
 
   const findProvinceName = (value) => {
     const province = provinces.find((province) => province.id === value);
@@ -230,7 +245,7 @@ const Cart = () => {
     )},${findProvinceName(province)}`;
     setAddress(address);
     console.log("Address:", address);
-    if(error){
+    if (error) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -267,19 +282,21 @@ const Cart = () => {
       }
       const products = cartItems.map((item) => ({
         product: item.product.name,
+        subTotal: item.product.price * item.quantity,
         quantity: item.quantity,
         image: item.product.image,
-        productId : item.product._id
-    }));
-    console.log("Products:", products);
+        productId: item.product._id,
+      }));
+      console.log("Products:", products);
       const orderData = {
         userId: userId,
         customerPhone: phone,
         customerAddress: address,
         note: note,
         customerName: name,
-        products:products,
         totalPrice: totalPrice,
+        products: products,
+
         paymentMethod: paymentMethod,
       };
       console.log("Products:", orderData.products);
@@ -289,9 +306,10 @@ const Cart = () => {
       );
 
       if (response.data.status) {
-        // alert("Bạn đã đặt hàng thành công");
         // Clear cart after successful payment
         setCartItems([]);
+        setLoading(false);
+        setError("");
         setTotalPrice(0);
         Swal.fire({
           position: "center",
@@ -311,76 +329,84 @@ const Cart = () => {
     }
   };
   const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(amount);
   };
-  
+
   return (
     <>
-      <Header ramdomremove={removeitemramdom} />
+      <Header />
       <Container className="mt-5">
-        {/* {error && <Alert variant="danger">{error}</Alert>} */}
         <Row>
           <Col lg={8}>
             <Card>
               <Card.Body>
-                <h1 className="fw-bold mb-4">Giỏ hàng</h1>
-                <Row className="mb-3">
-                  <Col>
-                    <strong>Ảnh</strong>
-                  </Col>
-                  <Col>
-                    <strong>Tên sản phẩm</strong>
-                  </Col>
-                  <Col>
-                    <strong>Quantity</strong>
-                  </Col>
-                  <Col>
-                    <strong>Giá</strong>
-                  </Col>
-                  <Col>
-                    <strong>Thành tiền</strong>
-                  </Col>
-                  <Col>
-                    <strong>Hành động</strong>
-                  </Col>
-                </Row>
-                {cartItems.length === 0 ? (
-                  <p>Không có sản phẩm nào trong giỏ hàng.</p>
+                {loading ? (
+                  <div className="loadercart">Loading...</div>
                 ) : (
-                  cartItems.map((item, index) => (
-                    <Row key={index} className="align-items-center mb-3">
+                  <>
+                    <h1 className="fw-bold mb-4">Giỏ hàng</h1>
+                    <Row className="mb-3">
                       <Col>
-                        <img
-                          src={item.product.image}
-                          alt={item.product.name}
-                          className="img-fluid"
-                          width="50"
-                        />
+                        <strong>Ảnh</strong>
                       </Col>
-                      <Col>{item.product.name}</Col>
                       <Col>
-                        <Form.Control
-                          type="number"
-                          style={{ width: "60px" }}
-                          value={item.quantity}
-                          onChange={(event) =>
-                            handleQuantityChange(index, event)
-                          }
-                          min="1"
-                        />
+                        <strong>Tên sản phẩm</strong>
                       </Col>
-                      <Col>{item.product.price.toLocaleString()} ₫</Col>
-                      <Col>{formatCurrency(item.subtotal)}</Col>
                       <Col>
-                        <Button
-                          variant="danger"
-                          onClick={() => removeCartItem(item.product._id)}
-                        >
-                          Xóa
-                        </Button>
+                        <strong>Số lượng</strong>
+                      </Col>
+                      <Col>
+                        <strong>Giá</strong>
+                      </Col>
+                      <Col>
+                        <strong>Thành tiền</strong>
+                      </Col>
+                      <Col>
+                        <strong>Hành động</strong>
                       </Col>
                     </Row>
-                  ))
+                    {cartItems.length === 0 ? (
+                      <p>Không có sản phẩm nào trong giỏ hàng.</p>
+                    ) : (
+                      cartItems.map((item, index) => (
+                        <Row key={index} className="align-items-center mb-3">
+                          <Col>
+                            <img
+                              src={item.product.image}
+                              alt={item.product.name}
+                              className="img-fluid"
+                              width="50"
+                            />
+                          </Col>
+                          <Col>{item.product.name}</Col>
+                          <Col>
+                            <Form.Control
+                              type="number"
+                              style={{ width: "60px" }}
+                              value={item.quantity}
+                              onChange={(event) =>
+                                handleQuantityChange(index, event)
+                              }
+                              min="1"
+                            />
+                          </Col>
+                          <Col>{item.product.price.toLocaleString()} ₫</Col>
+                          <Col>{formatCurrency(item.subtotal)}</Col>
+                          <Col>
+                            <Button
+                              variant="danger"
+                              onClick={() => removeCartItem(item.product._id)}
+                            >
+                              Xóa
+                            </Button>
+                          </Col>
+                        </Row>
+                      ))
+                    )}
+                  </>
                 )}
               </Card.Body>
             </Card>
