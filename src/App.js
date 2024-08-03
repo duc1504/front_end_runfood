@@ -7,7 +7,10 @@ import Login from "./screens/login";
 import Signup from "./screens/signup";
 import Cart from "./screens/cart";
 import ProductDetail from "./screens/ProductDetail";
-
+import Feedback from "./screens/Feedback";
+import Blog from "./screens/Blog";
+import BlogDetail from "./screens/BlogDetail"; 
+import OrderHistory from "./screens/OrderHistory";
 function App() {
   return (
     <div className="App">
@@ -65,6 +68,50 @@ function App() {
                   <title>Product Detail</title>
                 </Helmet>
                 <ProductDetail />
+              </>
+            }
+          />
+          <Route
+            path="/feedback"
+            element={
+              <>
+                <Helmet>
+                  <title>Feedback</title>
+                </Helmet>
+                <Feedback />
+              </>
+            }
+          />
+          <Route
+            path="/blog"
+            element={
+              <>
+                <Helmet>
+                  <title>Blog</title>
+                </Helmet>
+                <Blog />
+              </>
+            }
+          />
+          <Route
+            path="/blog/:id"
+            element={
+              <>
+                <Helmet>
+                  <title>Blog Detail</title>
+                </Helmet>
+                <BlogDetail />
+              </>
+            }
+          />
+          <Route
+            path="/order-history"
+            element={
+              <>
+                <Helmet>
+                  <title>Order History</title>
+                </Helmet>
+                <OrderHistory />
               </>
             }
           />

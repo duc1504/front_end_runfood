@@ -44,8 +44,10 @@ const Header = ({ cartCount }) => {
     <nav className="navbar navbar-expand-lg bg-white sticky-top navbar-light p-3 shadow-sm">
       <div className="container">
         <a className="navbar-brand" href="/">
-          <img src={logo} alt="Logo"
-          style={{  height: "50px",width: "196px", objectFit: "contain" }}
+          <img
+            src={logo}
+            alt="Logo"
+            style={{ height: "50px", width: "196px", objectFit: "contain" }}
           />
         </a>
         <button
@@ -77,18 +79,18 @@ const Header = ({ cartCount }) => {
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link mx-4 text-uppercase" href="#">
+              <a className="nav-link mx-4 text-uppercase" href="/blog">
                 <h6>Blog</h6>
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link mx-4 text-uppercase" href="#">
-                <h6>Contact</h6>
+              <a className="nav-link mx-4 text-uppercase" href="/feedback">
+                <h6>Feedback</h6>
               </a>
             </li>
           </ul>
           <ul className="navbar-nav ms-auto text-center">
-            <li className="nav-item iconGioHang">
+            <li className="nav-item iconGioHang justify-content-center">
               <a href="/cart" className="nav-link mx-4 text-uppercase">
                 <div id="cart-icon">
                   <FontAwesomeIcon
@@ -102,7 +104,7 @@ const Header = ({ cartCount }) => {
               </a>
             </li>
 
-            <li className="nav-item dropdown">
+            <li className="nav-item dropdown d-flex justify-content-center">
               <Dropdown>
                 <Dropdown.Toggle
                   variant="link"
@@ -116,6 +118,9 @@ const Header = ({ cartCount }) => {
                 <Dropdown.Menu className="dropdown-menu-right">
                   {name !== "Login" && (
                     <>
+                      <Dropdown.Item href="/order-history">
+                        Order History
+                      </Dropdown.Item>
                       <Dropdown.Item href="/settings">Settings</Dropdown.Item>
                       <Dropdown.Item onClick={handleLogout}>
                         Log out

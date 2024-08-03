@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Footer from "../components/footer";
 import ProductDetail from "./ProductDetail"; // Import your ProductDetail component
-
+import Swal from 'sweetalert2'
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -64,17 +64,41 @@ const Home = () => {
     return total.toLocaleString("vi-VN", { minimumFractionDigits: 0 });
   };
 
-  const addToCart = async (productId, quantity = 1) => {
+  const addToCart = async (product, quantity = 1) => {
+    const productId = product._id;
+    const stock = product.stock;
     const user = JSON.parse(localStorage.getItem("user"));
     const userId = user?._id;
+  
     if (!userId) {
       console.error("User ID không được tìm thấy. Vui lòng đăng nhập.");
       navigate("/login"); // Chuyển hướng đến trang đăng nhập
       return;
     }
-
+  
     try {
-      const response = await fetch("https://backend-runfood.vercel.app/cart/add", {
+      // Kiểm tra tổng số lượng sản phẩm trong giỏ hàng
+      const response = await fetch(`https://backend-runfood.vercel.app/cart/${userId}`);
+      const cartData = await response.json();
+  
+      if (cartData.status) {
+        // Lấy tổng số lượng sản phẩm của sản phẩm cụ thể trong giỏ hàng
+        const existingProduct = cartData.data.items.find(item => item.product._id === productId);
+        const currentQuantity = existingProduct ? existingProduct.quantity : 0;
+  
+        // Kiểm tra nếu số lượng sản phẩm trong giỏ hàng + số lượng muốn thêm vượt quá tồn kho
+        if (currentQuantity + quantity > stock) {
+          Swal.fire({
+            title: "Max quantity: ",
+            text: `Số lượng sản phẩm trong kho chỉ còn ${stock} sản phẩm.`,
+            icon: "warning",
+          });
+          return;
+        }
+      }
+  
+      // Thêm sản phẩm vào giỏ hàng
+      const addResponse = await fetch("https://backend-runfood.vercel.app/cart/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -85,33 +109,30 @@ const Home = () => {
           userId,
         }),
       });
-
-      const data = await response.json();
-
-      if (data.status) {
+  
+      const addData = await addResponse.json();
+  
+      if (addData.status) {
         showThongBao("Sản phẩm đã được thêm vào giỏ hàng!");
-
-        // Cập nhật giỏ hàng trong localStorage nếu cần
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        cart.push({ productId, quantity });
-        localStorage.setItem("cart", JSON.stringify(cart));
-      } else {
-        console.error(data.error || "Thêm sản phẩm vào giỏ hàng không thành công");
-      }
-
-      try {
-        const response = await axios.get("https://backend-runfood.vercel.app/cart/count/" + userId);
-        const data = response.data;
-        if (data.status) {
-          setCartCount(data.count);
+  
+        // Cập nhật số lượng sản phẩm trong giỏ hàng
+        try {
+          const countResponse = await axios.get(`https://backend-runfood.vercel.app/cart/count/${userId}`);
+          const countData = countResponse.data;
+          if (countData.status) {
+            setCartCount(countData.count);
+          }
+        } catch (err) {
+          console.error("Error fetching cart count:", err);
         }
-      } catch (err) {
-        console.error("Error fetching cart count:", err);
+      } else {
+        console.error(addData.error || "Thêm sản phẩm vào giỏ hàng không thành công");
       }
     } catch (error) {
       console.error("Đã xảy ra lỗi:", error.message);
     }
   };
+  
 
   const showThongBao = (message) => {
     var notification = document.getElementById("notification");
@@ -159,7 +180,7 @@ const Home = () => {
       navigate("/cart");
     }
   };
-
+  if (!categories) return <p>Loading...</p>;
   return (
     <>
 
@@ -224,7 +245,7 @@ const Home = () => {
                         className="btn btn-outline-dark mt-auto"
                         href="javascript:void(0)"
                         id="addToCartBtn"
-                        onClick={() => addToCart(product._id)}
+                        onClick={() => addToCart(product)}
                       >
                         <i className="fa-solid fa-cart-shopping"></i>Add to cart
                       </a>

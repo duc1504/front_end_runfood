@@ -1,0 +1,61 @@
+.feedback-container {
+    padding: 50px 15px;
+    background-color: #f9f9f9;
+  }
+  
+  .feedback-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .feedback-title {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .feedback-intro {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 30px;
+  }
+  
+  .feedback-form-container {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .feedback-form {
+    max-width: 100%;
+    min-height: 1600px;
+    border: none;
+  }
+  
+  @media (max-width: 768px) {
+    .feedback-form {
+      height: 1400px;
+    }
+  
+    .feedback-title {
+      font-size: 2rem;
+    }
+  
+    .feedback-intro {
+      font-size: 1rem;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .feedback-form {
+      height: 1200px;
+    }
+  
+    .feedback-title {
+      font-size: 1.75rem;
+    }
+  
+    .feedback-intro {
+      font-size: 0.9rem;
+    }
+  }
+  

@@ -149,25 +149,65 @@ const Cart = () => {
 
   const handleQuantityChange = async (index, event) => {
     const newQuantity = parseInt(event.target.value, 10);
-    if (newQuantity >= 0) {
+    
+    // Kiểm tra giá trị nhập vào
+    console.log("New Quantity:", newQuantity);
+    if (isNaN(newQuantity) || newQuantity < 0) {
+      return; // Không cho phép số lượng không hợp lệ hoặc âm
+    }
+  
+    try {
+      const productId = cartItems[index].product._id;
+  
+      // Lấy thông tin sản phẩm để kiểm tra số lượng tồn kho
+      const productResponse = await axios.get(`https://backend-runfood.vercel.app/product/detail/${productId}`);
+      const productData = productResponse.data;
+      const stock = productData.data.stock;
+  
+      // Tính tổng số lượng sản phẩm hiện tại trong giỏ hàng
+      const currentQuantity = cartItems.reduce((acc, item) => {
+        if (item.product._id === productId) {
+          return acc + item.quantity;
+        }
+        return acc;
+      }, 0);
+  
+      // Kiểm tra tổng số lượng sau khi thay đổi
+      if (newQuantity + (currentQuantity - cartItems[index].quantity) > stock) {
+        Swal.fire({
+          icon: "warning",
+          title: "Số lượng không hợp lệ",
+          text: `Số lượng sản phẩm trong kho chỉ còn ${stock}.`,
+        });
+        return;
+      }
+  
+      // Cập nhật số lượng sản phẩm trong giỏ hàng
       const updatedCartItems = [...cartItems];
       updatedCartItems[index].quantity = newQuantity;
       updatedCartItems[index].subtotal = (
         newQuantity * updatedCartItems[index].product.price
       ).toFixed(2);
       setCartItems(updatedCartItems);
+  
+      // Cập nhật tổng giá tiền
       const newTotalPrice = updatedCartItems.reduce(
         (acc, item) => acc + parseFloat(item.subtotal),
         0
       );
       setTotalPrice(newTotalPrice.toFixed(2));
-
+  
+      // Cập nhật số lượng sản phẩm trong giỏ hàng trên server
       await updateCartItemQuantity(
         updatedCartItems[index].product._id,
         newQuantity
       );
+    } catch (err) {
+      console.error("Error handling quantity change:", err);
+      setError("Đã xảy ra lỗi khi thay đổi số lượng sản phẩm.");
     }
   };
+  
 
   const findProvinceName = (value) => {
     const province = provinces.find((province) => province.id === value);
@@ -227,8 +267,11 @@ const Cart = () => {
       }
       const products = cartItems.map((item) => ({
         product: item.product.name,
-        quantity: item.quantity
+        quantity: item.quantity,
+        image: item.product.image,
+        productId : item.product._id
     }));
+    console.log("Products:", products);
       const orderData = {
         userId: userId,
         customerPhone: phone,
@@ -267,7 +310,10 @@ const Cart = () => {
       setError("Đã xảy ra lỗi khi xử lý thanh toán.");
     }
   };
-
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+  };
+  
   return (
     <>
       <Header ramdomremove={removeitemramdom} />
@@ -286,7 +332,7 @@ const Cart = () => {
                     <strong>Tên sản phẩm</strong>
                   </Col>
                   <Col>
-                    <strong>SL</strong>
+                    <strong>Quantity</strong>
                   </Col>
                   <Col>
                     <strong>Giá</strong>
@@ -315,7 +361,7 @@ const Cart = () => {
                       <Col>
                         <Form.Control
                           type="number"
-                          style={{ width: "50px" }}
+                          style={{ width: "60px" }}
                           value={item.quantity}
                           onChange={(event) =>
                             handleQuantityChange(index, event)
@@ -323,8 +369,8 @@ const Cart = () => {
                           min="1"
                         />
                       </Col>
-                      <Col>{item.product.price.toLocaleString()} VND</Col>
-                      <Col>{item.subtotal.toLocaleString()} VND</Col>
+                      <Col>{item.product.price.toLocaleString()} ₫</Col>
+                      <Col>{formatCurrency(item.subtotal)}</Col>
                       <Col>
                         <Button
                           variant="danger"
@@ -437,7 +483,7 @@ const Cart = () => {
                     />
                   </Form.Group>
                   <h4 className="fw-bold">
-                    Tổng cộng: {totalPrice.toLocaleString()} VND
+                    Tổng cộng: {formatCurrency(totalPrice)}
                   </h4>
                   <Button
                     variant="primary"

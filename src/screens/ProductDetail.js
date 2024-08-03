@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import '../styles/detail.css';
 import Header from "../components/header";
-
+import Swal from 'sweetalert2'
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
@@ -29,17 +29,44 @@ const ProductDetail = () => {
     fetchProductDetail();
   }, [id]);
 
-  const addToCart = async (productId, quantity = 1) => {
+  const addToCart = async (product, quantity = 1) => {
+    const productId = product._id;
     const user = JSON.parse(localStorage.getItem("user"));
     const userId = user?._id;
+    
     if (!userId) {
       console.error("User ID không được tìm thấy. Vui lòng đăng nhập.");
       navigate("/login"); // Chuyển hướng đến trang đăng nhập
       return;
     }
-
+  
     try {
-      const response = await fetch("https://backend-runfood.vercel.app/cart/add", {
+      // Lấy thông tin giỏ hàng hiện tại để kiểm tra số lượng sản phẩm
+      const cartResponse = await fetch(`https://backend-runfood.vercel.app/cart/${userId}`);
+      const cartData = await cartResponse.json();
+      
+      let currentQuantity = 0;
+      if (cartData.status) {
+        const existingProduct = cartData.data.items.find(item => item.product._id === productId);
+        currentQuantity = existingProduct ? existingProduct.quantity : 0;
+      }
+  
+      // Lấy thông tin sản phẩm để kiểm tra tồn kho
+      const productResponse = await fetch(`https://backend-runfood.vercel.app/product/detail/${productId}`);
+      const productData = await productResponse.json();
+      const stock = productData.data.stock;
+  
+      if (stock < quantity + currentQuantity) {
+        Swal.fire({
+          title: "Max quantity: ",
+          text: `Số lượng sản phẩm trong kho chỉ còn ${stock} sản phẩm.`,
+          icon: "warning",
+        });
+        return;
+      }
+  
+      // Thêm sản phẩm vào giỏ hàng
+      const addResponse = await fetch("https://backend-runfood.vercel.app/cart/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -50,34 +77,30 @@ const ProductDetail = () => {
           userId,
         }),
       });
-
-      const data = await response.json();
-
-      if (data.status) {
+      
+      const addData = await addResponse.json();
+      
+      if (addData.status) {
         showThongBao("Sản phẩm đã được thêm vào giỏ hàng!");
-
-        // Cập nhật giỏ hàng trong localStorage nếu cần
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        cart.push({ productId, quantity });
-        localStorage.setItem("cart", JSON.stringify(cart));
-      } else {
-        console.error(data.error || "Thêm sản phẩm vào giỏ hàng không thành công");
-      }
-
-      try {
-        const response = await axios.get("https://backend-runfood.vercel.app/cart/count/" + userId);
-        const data = response.data;
-        if (data.status) {
-          console.log(data.count);
-          setCartCount(data.count);
+  
+        // Cập nhật số lượng sản phẩm trong giỏ hàng
+        try {
+          const countResponse = await axios.get(`https://backend-runfood.vercel.app/cart/count/${userId}`);
+          const countData = countResponse.data;
+          if (countData.status) {
+            setCartCount(countData.count);
+          }
+        } catch (err) {
+          console.error("Error fetching cart count:", err);
         }
-      } catch (err) {
-        console.error("Error fetching cart count:", err);
+      } else {
+        console.error(addData.error || "Thêm sản phẩm vào giỏ hàng không thành công");
       }
     } catch (error) {
       console.error("Đã xảy ra lỗi:", error.message);
     }
   };
+  
 
   const showThongBao = (message) => {
     var notification = document.getElementById("notification");
@@ -93,11 +116,11 @@ const ProductDetail = () => {
     }, 1000); // Hiển thị trong 1 giây
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (product) => {
     // Lấy số lượng từ input
     const quantity = parseInt(document.querySelector('input[name=quantity]').value, 10);
     if (product) {
-      addToCart(product._id, quantity);
+      addToCart(product, quantity);
     }
   };
 
@@ -135,7 +158,7 @@ const ProductDetail = () => {
               <input type="radio" className="btn-check" name="options-outlined" id="xl-outlined" autoComplete="off" />
               <label className="btn btn-outline-primary me-2" htmlFor="xl-outlined">Lớn</label>
             </div>
-            <p className="px-3 mt-4 d-flex">Quantity</p>
+            <p className="px-3 mt-4 d-flex">Quantity (max {product.stock})</p>
             <div className="col-md-5 col-lg-5 col-xl-3 d-flex my-3">
               <button className="btn btn-link" onClick={() => document.querySelector('input[name=quantity]').stepDown()}>
                 <i className="fas fa-minus"></i>
@@ -146,7 +169,7 @@ const ProductDetail = () => {
               </button>
             </div>
             <div className="mx-3 d-flex">
-              <button className="col-md-5 col-lg-5 col-xl-3 btn bg-primary text-light mt-2 me-3" type="submit" onClick={handleAddToCart}>
+              <button className="col-md-5 col-lg-5 col-xl-3 btn bg-primary text-light mt-2 me-3" type="submit" onClick={() => handleAddToCart(product)}>
                 <i className="fa-solid fa-cart-shopping"></i> Add to cart
               </button>
               <button className="col-md-5 col-lg-5 col-xl-3 btn bg-primary text-light mt-2" type="submit">Mua ngay</button>
