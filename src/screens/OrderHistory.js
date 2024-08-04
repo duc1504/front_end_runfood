@@ -41,7 +41,10 @@ const OrderHistory = ({ userId }) => {
       <div className="order-history-container">
         <h1 className="text-center my-5">Lịch sử đơn hàng</h1>
         {loading ? (
-          <div className="loader-order-history"></div>
+        <div class="loader-order-history">
+        <div class="loader-order-history-inner"></div>
+      </div>
+      
         ) : (
           <div className="orders">
             {orders.map((order) => (

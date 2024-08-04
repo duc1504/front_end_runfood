@@ -1,104 +1,120 @@
 .order-history-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .order-card {
-    background: #fff;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-  }
-  
-  .order-card:hover {
-    transform: scale(1.05);
-  }
-  
-  .order-card h2 {
-    font-size: 20px;
-    margin-bottom: 10px;
-    color: #333;
-  }
-  
-  .order-card p {
-    font-size: 16px;
-    margin: 5px 0;
-    color: #555;
-  }
-  
-  .order-status {
-    font-weight: bold;
-  }
-  
-  .status-pending {
-    color: orange !important;
-  }
-  
-  .status-success {
-    color: green !important;
-  }
-  
-  .status-failed {
-    color: red !important;
-  }
-  
-  .products {
-    margin-top: 20px;
-  }
-  .product-name {
-    font-weight: bold;
-   
-    margin-bottom: 5px;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
 
-  }
-  
-  .product-item {
-    padding: 10px;
-    margin-bottom: 10px;
-    background: #f1f1f1;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-  }
-  
-  .product-item img {
-    width: 60px;
-    height: 60px;
-    margin-right: 10px;
-    border-radius: 8px;
-  }
-  
-  .product-item p {
-    margin : 10;
-    color: #333;
-  }
-  .loader-order-history {
-    width: 60px;
+.order-card {
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.order-card:hover {
+  transform: scale(1.05);
+}
+
+.order-card h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.order-card p {
+  font-size: 16px;
+  margin: 5px 0;
+  color: #555;
+}
+
+.order-status {
+  font-weight: bold;
+}
+
+.status-pending {
+  color: orange !important;
+}
+
+.status-success {
+  color: green !important;
+}
+
+.status-failed {
+  color: red !important;
+}
+
+.products {
+  margin-top: 20px;
+}
+.product-name {
+  font-weight: bold;
+
+  margin-bottom: 5px;
+}
+
+.product-item {
+  padding: 10px;
+  margin-bottom: 10px;
+  background: #f1f1f1;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.product-item img {
+  width: 60px;
+  height: 60px;
+  margin-right: 10px;
+  border-radius: 8px;
+}
+
+.product-item p {
+  margin: 10;
+  color: #333;
+}
+/* HTML: <div class="loader"></div> */
+.loader-order-history {
+  width: 60px;
   height: 60px;
   display: flex;
-  position: fixed; 
-  top: 30%; 
-  left: 50%; 
- 
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   justify-content: center;
   align-items: center;
-    --b: 8px; 
-    aspect-ratio: 1;
-    border-radius: 50%;
-    padding: 1px;
-    background: conic-gradient(#0000 10%,#f03355) content-box;
-    -webkit-mask:
-      repeating-conic-gradient(#0000 0deg,#000 1deg 20deg,#0000 21deg 36deg),
-      radial-gradient(farthest-side,#0000 calc(100% - var(--b) - 1px),#000 calc(100% - var(--b)));
-    -webkit-mask-composite: destination-in;
-            mask-composite: intersect;
-    animation:l4 1s infinite steps(10);
+}
+
+.loader-order-history-inner {
+  width: 100%;
+  height: 100%;
+  --b: 8px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  padding: 1px;
+  background: conic-gradient(#0000 10%, #f03355) content-box;
+  -webkit-mask: repeating-conic-gradient(
+      #0000 0deg,
+      #000 1deg 20deg,
+      #0000 21deg 36deg
+    ),
+    radial-gradient(
+      farthest-side,
+      #0000 calc(100% - var(--b) - 1px),
+      #000 calc(100% - var(--b))
+    );
+  -webkit-mask-composite: destination-in;
+  mask-composite: intersect;
+  animation: l4 1s infinite steps(10);
+}
+
+@keyframes l4 {
+  to {
+    transform: rotate(1turn);
   }
-  @keyframes l4 {to{transform: rotate(1turn)}}
-  
+}

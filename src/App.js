@@ -11,10 +11,12 @@ import Feedback from "./screens/Feedback";
 import Blog from "./screens/Blog";
 import BlogDetail from "./screens/BlogDetail"; 
 import OrderHistory from "./screens/OrderHistory";
+import { Analytics } from '@vercel/analytics/react';
 function App() {
   return (
     <div className="App">
       <Router>
+      <Analytics />
         <Routes>
           <Route
             path="/"

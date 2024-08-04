@@ -39,7 +39,7 @@
   position: fixed; /* Sử dụng fixed để luôn hiển thị ở giữa màn hình, ngay cả khi cuộn */
   top: 50%; /* Căn chỉnh theo chiều dọc */
   left: 50%; /* Căn chỉnh theo chiều ngang */
-  transform: translate(-50%, -50%); /* Di chuyển loader về chính giữa màn hình */
+  transform: translate(-50%, -50%); 
   justify-content: center;
   align-items: center;
   aspect-ratio: 2;

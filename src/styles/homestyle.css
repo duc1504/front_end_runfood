@@ -1,264 +1,273 @@
 header {
-    position: sticky;
-    top: 0;
-    background-color: white;
-    z-index: 1000; /* Để đảm bảo header hiển thị trên các phần tử khác */
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1000; /* Để đảm bảo header hiển thị trên các phần tử khác */
 }
 
-
 .icons {
-    text-align: center; 
-    position: absolute; 
-    top: 35%; 
-    left: 50%; 
-    transform: translate(-50%, -50%); 
-    display: none;
+  text-align: center;
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
 }
 
 .icons img {
-    margin: 5px !important;
+  margin: 5px !important;
 }
 
 #slide {
-    max-width: 100%;
-    max-height: 480px;
-    overflow: hidden;
-    position: relative;
+  max-width: 100%;
+  max-height: 480px;
+  overflow: hidden;
+  position: relative;
 }
 
 #image {
-    width: 100%;
-    height: auto;
+  width: 100%;
+  height: auto;
 }
 
 #mota {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.212);
-    color: white;
-    padding: 10px;
-    width: 100%;
-    text-align: center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.212);
+  color: white;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
 }
-.fa-chevron-circle-left{
-    position: absolute;
-    top: 45%;
-    left: 20px;
-    font-size: 32px;
-    color: rgb(183, 205, 224);
-
+.fa-chevron-circle-left {
+  position: absolute;
+  top: 45%;
+  left: 20px;
+  font-size: 32px;
+  color: rgb(183, 205, 224);
 }
-.fa-chevron-circle-right{
-    position: absolute;
-    top: 45%;
-    right: 20px;
-    font-size: 32px;
-    color: rgb(183, 205, 224);
+.fa-chevron-circle-right {
+  position: absolute;
+  top: 45%;
+  right: 20px;
+  font-size: 32px;
+  color: rgb(183, 205, 224);
 }
 #image {
-    /* ... */
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    opacity: 1;
-    transform: scale(1);
+  /* ... */
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  opacity: 1;
+  transform: scale(1);
 }
 
 #image.fade-out {
-    opacity: 0;
-    transform: scale(0.9);
+  opacity: 0;
+  transform: scale(0.9);
 }
 /* CSS cho icon giỏ hàng */
 #cart-icon {
-    position: relative;
-    display: inline-block;
-    margin-right: 10px;
-    cursor: pointer;
-  }
-  
-  #cart-icon i {
-    font-size: 24px;
-    color: #333; /* Màu của biểu tượng giỏ hàng */
-  }
-  
-  #cart-count {
-    position: absolute;
-    top: -10px; /* Điều chỉnh vị trí của số */
-    right: -10px; /* Điều chỉnh vị trí của số */
-    background-color: #ff5733; /* Màu nền của số */
-    color: #fff; /* Màu của số */
-    border-radius: 50%; /* Bo góc để tạo hình tròn */
-    width: 20px;
-    height: 20px;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
-  
-  /* Hiệu ứng khi di chuột qua */
-  #cart-icon:hover #cart-count {
-    background-color: #333; /* Màu nền thay đổi khi di chuột qua */
-    transform: scale(1.2); /* Phóng to số khi di chuột qua */
-  }
+  position: relative;
+  display: inline-block;
+  margin-right: 10px;
+  cursor: pointer;
+}
 
-  /* CSS cho thông báo */
-  #notification {
-    width: 300px;
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px;
-    border-radius: 5px;
-    position: fixed;
-    top: 60px;
-    right: 20px;
-    opacity: 0; /* Ẩn thông báo ban đầu */
-    transition: opacity 2s ease; /* Thời gian và kiểu chuyển đổi */
+#cart-icon i {
+  font-size: 24px;
+  color: #333; /* Màu của biểu tượng giỏ hàng */
+}
+
+#cart-count {
+  position: absolute;
+  top: -10px; /* Điều chỉnh vị trí của số */
+  right: -10px; /* Điều chỉnh vị trí của số */
+  background-color: #ff5733; /* Màu nền của số */
+  color: #fff; /* Màu của số */
+  border-radius: 50%; /* Bo góc để tạo hình tròn */
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Hiệu ứng khi di chuột qua */
+#cart-icon:hover #cart-count {
+  background-color: #333; /* Màu nền thay đổi khi di chuột qua */
+  transform: scale(1.2); /* Phóng to số khi di chuột qua */
+}
+
+/* CSS cho thông báo */
+#notification {
+  width: 300px;
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  position: fixed;
+  top: 60px;
+  right: 20px;
+  opacity: 0; /* Ẩn thông báo ban đầu */
+  transition: opacity 2s ease; /* Thời gian và kiểu chuyển đổi */
 }
 
 .hidden {
-    display: none;
+  display: none;
 }
-
 
 /* CSS cho footer */
 
 .nav-link:hover {
-    background-color: rgb(209, 209, 209);
+  background-color: rgb(209, 209, 209);
+}
+@media only screen and (max-width: 768px) {
+  .sell {
+    display: none;
   }
-  @media only screen and (max-width: 768px) {
-    .sell{
-        display: none;
-    }
-  
 }
-ul li a{
-
-    text-decoration: none;
-color: aliceblue;
-
+ul li a {
+  text-decoration: none;
+  color: aliceblue;
 }
-ul li{
-    margin-top: 12px;
-    list-style: none;
+ul li {
+  margin-top: 12px;
+  list-style: none;
 }
-.icon_footer a{
-    color: aliceblue;
+.icon_footer a {
+  color: aliceblue;
 }
-@media screen and (min-width:989px){
-   .navbar-nav{
+@media screen and (min-width: 989px) {
+  .navbar-nav {
     margin-right: 30px;
-   }
   }
- .nav-link:focus, .nav-link:hover {
-    background-color: rgb(209, 209, 209);
-    color: aliceblue;
+}
+.nav-link:focus,
+.nav-link:hover {
+  background-color: rgb(209, 209, 209);
+  color: aliceblue;
 }
 
-.iconGioHang{
-    margin-top: 15px;
+.iconGioHang {
+  margin-top: 15px;
 }
 /* catetory */
 .category-section {
-   margin-top: 2rem;
-  }
-  
-  .dropdown-container {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 1rem;
-    width: 100%;
-   
-  }
-  
-  .category-dropdown {
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    font-size: 1rem;
-  }
-  
+  margin-top: 2rem;
+}
+
+.dropdown-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.category-dropdown {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-size: 1rem;
+}
+
 /* thông báo */
 .notification {
-    position: fixed;
-    height: 90px;
-    bottom: 20px;
-    right: 20px;
-    background-color: #28a745;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    opacity: 0; 
-    transition: opacity 1s ease-in-out; 
-    z-index: 2000; 
-    font-size: 16px;
-    font-weight: bold;
+  position: fixed;
+  height: 90px;
+  bottom: 20px;
+  right: 20px;
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  z-index: 2000;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .hidden {
-    display: none; 
+  display: none;
 }
 
-/* HTML: <div class="loader"></div> */
+
 .loaderhome {
-    width: 60px;
+  width: 60px;
   height: 60px;
   display: flex;
-  position: fixed; 
-  top: 50%; 
-  left: 50%; 
- 
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   justify-content: center;
   align-items: center;
-    --b: 8px; 
-    aspect-ratio: 1;
-    border-radius: 50%;
-    padding: 1px;
-    background: conic-gradient(#0000 10%,#f03355) content-box;
-    -webkit-mask:
-      repeating-conic-gradient(#0000 0deg,#000 1deg 20deg,#0000 21deg 36deg),
-      radial-gradient(farthest-side,#0000 calc(100% - var(--b) - 1px),#000 calc(100% - var(--b)));
-    -webkit-mask-composite: destination-in;
-            mask-composite: intersect;
-    animation:l4 1s infinite steps(10);
-  }
-  @keyframes l4 {to{transform: rotate(1turn)}}
+}
 
+.loaderhome-inner {
+  width: 100%;
+  height: 100%;
+  --b: 8px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  padding: 1px;
+  background: conic-gradient(#0000 10%, #f03355) content-box;
+  -webkit-mask: repeating-conic-gradient(
+      #0000 0deg,
+      #000 1deg 20deg,
+      #0000 21deg 36deg
+    ),
+    radial-gradient(
+      farthest-side,
+      #0000 calc(100% - var(--b) - 1px),
+      #000 calc(100% - var(--b))
+    );
+  -webkit-mask-composite: destination-in;
+  mask-composite: intersect;
+  animation: l4 1s infinite steps(10);
+}
 
-  .pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-   margin-top: 30px;
+@keyframes l4 {
+  to {
+    transform: rotate(1turn);
   }
-  
-  .pagination button {
-    background-color: #007bff;
-    border: 1px solid #007bff;
-    color: white;
-    padding: 10px 20px;
-    margin: 0 5px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, border-color 0.3s;
-  }
-  
-  .pagination button:disabled {
-    background-color: #d6d6d6;
-    border-color: #d6d6d6;
-    cursor: not-allowed;
-  }
-  
-  .pagination button:hover:not(:disabled) {
-    background-color: #0056b3;
-    border-color: #0056b3;
-  }
-  
-  .pagination span {
-    font-size: 16px;
-    margin: 0 15px;
-    font-weight: bold;
-  }
-  
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.pagination button {
+  background-color: #007bff;
+  border: 1px solid #007bff;
+  color: white;
+  padding: 10px 20px;
+  margin: 0 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.pagination button:disabled {
+  background-color: #d6d6d6;
+  border-color: #d6d6d6;
+  cursor: not-allowed;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.pagination span {
+  font-size: 16px;
+  margin: 0 15px;
+  font-weight: bold;
+}

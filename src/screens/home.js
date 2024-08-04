@@ -229,7 +229,10 @@ const Home = () => {
       <section className="pb-5 pt-4">
         <div className="container">
           {loadingProducts ? (
-            <div className="loaderhome"></div>
+           <div class="loaderhome">
+           <div class="loaderhome-inner"></div>
+         </div>
+         
           ) : (
             <>
               <div className="row justify-content-center sanphammoi">

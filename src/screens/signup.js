@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import logo from '../assets/images/logo.png';
+import logo from '../assets/images/logo1.png';
 import signupImage from '../assets/images/team.png'; 
 import Header from '../components/header';
 import Footer from '../components/footer';
@@ -71,7 +71,7 @@ const Signup = () => {
                                     <div className="card-body p-4 p-lg-5 text-black">
                                         <form name="formsignup" onSubmit={handleSubmit}>
                                             <div className="d-flex align-items-center mb-3 pb-1">
-                                                <div><img src={logo} alt="Logo" /></div>
+                                                <div><img src={logo} alt="Logo" style={{ width: '160px', height: '60px' }} /></div>
                                             </div>
                                             <h5 className="fw-normal mb-3 pb-3" style={{ letterSpacing: '1px' }}>Đăng ký tài khoản</h5>
                                             <div className="form-outline mb-4">
