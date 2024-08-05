@@ -32,14 +32,14 @@ const Signup = () => {
                 },
                 body: JSON.stringify(formData)
             });
-
-            if (response.ok) {
+            const data = await response.json();
+            if (data.status) {
                 // Lưu thông tin vào localStorage
-                const userData = await response.json();
+                const { password, ...userData } = data.data;
                 localStorage.setItem('user', JSON.stringify(userData));
                 // Điều hướng đến trang khác hoặc thông báo thành công
                 Swal.fire({
-                    position: "top-end",
+                    position: "center",
                     icon: "success",
                     title: "Signup successfully!",
                     showConfirmButton: false,
