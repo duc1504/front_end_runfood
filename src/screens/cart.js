@@ -14,7 +14,7 @@ import Footer from "../components/footer";
 import "../styles/cart.css";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import Swal from "sweetalert2";
-
+import formatCurrency from "../handles/formatCurrency";
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -328,12 +328,6 @@ const Cart = () => {
       setError("Đã xảy ra lỗi khi xử lý thanh toán.");
     }
   };
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    }).format(amount);
-  };
 
   return (
     <>
@@ -344,7 +338,9 @@ const Cart = () => {
             <Card>
               <Card.Body>
                 {loading ? (
-                  <div className="loadercart">Loading...</div>
+                  <div class="loadercart">
+                    <div class="loadercart-inner"></div>
+                  </div>
                 ) : (
                   <>
                     <h1 className="fw-bold mb-4">Giỏ hàng</h1>

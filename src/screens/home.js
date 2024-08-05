@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Footer from "../components/footer";
 import Swal from "sweetalert2";
-
+import formatCurrency from "../handles/formatCurrency";
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -16,6 +16,7 @@ const Home = () => {
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
+  
   const itemsPerPage = 9;
 
   const navigate = useNavigate();
@@ -68,9 +69,7 @@ const Home = () => {
     }
   };
 
-  const formatTotal = (total) => {
-    return total.toLocaleString("vi-VN", { minimumFractionDigits: 0 });
-  };
+
 
   const addToCart = async (product, quantity = 1) => {
     const productId = product._id;
@@ -261,7 +260,7 @@ const Home = () => {
                             <i className="fa-solid fa-star"></i>
                             <i className="fa-solid fa-star"></i>
                           </div>
-                          <b>{formatTotal(product.price)} VND</b>
+                          <b>{formatCurrency(product.price)}</b>
                         </div>
                       </div>
                       <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">

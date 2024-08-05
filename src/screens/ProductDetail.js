@@ -6,7 +6,7 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import "../styles/detail.css";
 import Header from "../components/header";
 import Swal from "sweetalert2";
-
+import formatCurrency from "../handles/formatCurrency";
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
@@ -164,6 +164,8 @@ const ProductDetail = () => {
           title: "Đánh giá thành công!",
           text: response.data.message,
           icon: "success",
+        }).then(() => {
+          window.location.reload();
         });
       } else {
         Swal.fire({
@@ -228,7 +230,7 @@ const ProductDetail = () => {
                 </p>
               </div>
               <b className=" d-flex">
-                <h1 className="px-3">{product.price.toLocaleString()} VND</h1>
+                <h1 className="px-3">{formatCurrency(product.price)}</h1>
               </b>
               <p className="px-3 d-flex">Size</p>
               <div className="px-3 d-flex">

@@ -166,14 +166,21 @@ ul li {
 }
 
 .category-dropdown {
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #fff;
+  width: 100%;
+  max-width: 250px;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 25px;
+  background-color: #ffffff;
+  font-size: 16px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
-
+.category-dropdown:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+}
 /* thông báo */
 .notification {
   position: fixed;

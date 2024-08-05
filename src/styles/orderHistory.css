@@ -1,3 +1,78 @@
+.orders {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.order-card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.order-card h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.order-card p {
+  margin: 5px 0;
+}
+
+.order-status {
+  font-weight: bold;
+}
+
+.products {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.product-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.product-item img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.product-item .product-name {
+  font-weight: bold;
+}
+
+
+.product-item div {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Đưa nội dung sang trái */
+}
+
+.product-item p {
+  margin: 0;
+}
+
+.product-item button {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.product-item button:hover {
+  background-color: #0056b3;
+}
+
 .order-history-container {
   max-width: 800px;
   margin: 0 auto;
@@ -77,13 +152,13 @@
   margin: 10;
   color: #333;
 }
-/* HTML: <div class="loader"></div> */
+
 .loader-order-history {
   width: 60px;
   height: 60px;
   display: flex;
   position: fixed;
-  top: 50%;
+  top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
   justify-content: center;

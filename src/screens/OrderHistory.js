@@ -3,7 +3,7 @@ import axios from "axios";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import "../styles/orderHistory.css";
-
+import formatCurrency from "../handles/formatCurrency";
 const OrderHistory = ({ userId }) => {
   const [orders, setOrders] = useState([]);
 
@@ -34,17 +34,16 @@ const OrderHistory = ({ userId }) => {
     if (status === "failed") return "status-failed";
     return "";
   };
-
+  console.log(orders);
   return (
     <>
       <Header />
       <div className="order-history-container">
         <h1 className="text-center my-5">Lịch sử đơn hàng</h1>
         {loading ? (
-        <div class="loader-order-history">
-        <div class="loader-order-history-inner"></div>
-      </div>
-      
+          <div class="loader-order-history">
+            <div class="loader-order-history-inner"></div>
+          </div>
         ) : (
           <div className="orders">
             {orders.map((order) => (
@@ -62,12 +61,35 @@ const OrderHistory = ({ userId }) => {
                     <div key={index} className="product-item">
                       <img src={item.image} alt={item.name} />
                       <div>
-                        <p className="product-name"> {item.product}</p>
+                        <p className="product-name">{item.product}</p>
                         <p>Quantity: {item.quantity}</p>
+                        <p>
+                          Sub Price:{" "}
+                          {item.subTotal
+                            ? formatCurrency(item.subTotal)
+                            : "N/A"}{" "}
+                          
+                        </p>
                       </div>
+                      <button
+                        onClick={() =>
+                          (window.location.href = `/product/${item.productId}`)
+                        }
+                      >
+                        Rating
+                      </button>
                     </div>
                   ))}
                 </div>
+                <h5>
+                  {" "}
+                  Total Price:{" "}
+                  {order.totalPrice
+                    ? formatCurrency(order.totalPrice)
+                    : "N/A"}{" "}
+                  
+                </h5>
+
                 {order.note && <p>Note: {order.note}</p>}
               </div>
             ))}
